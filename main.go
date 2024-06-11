@@ -1,13 +1,21 @@
 package main
 
 import (
+	"crypto/rand"
 	"fmt"
-	"math/rand"
+	"unicode/utf8"
 )
 
 func main() {
 	fmt.Println("Hello, world!")
-	const NUMERIC = "0123456789abcdefghijklmnopqrstuvwxyz"
-	fmt.Println(NUMERIC)
-	rand.Int()
+	const SEED = "0123456789abcdefghijklmnopqrstuvwxyz"
+	SeedLen := int64(utf8.RuneCountInString(SEED))
+
+	for i := 0; i < 8; i++ {
+		n, err := rand.Int(rand.Reader(), big.newInt(SeedLen))
+		if err != nil {
+			return fmt.Errorf(":%w", err)
+		}
+	}
+
 }
